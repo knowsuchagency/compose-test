@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app:/app
+    environment:
+      - FLASK_ENV=development
+      - PYTHONPATH=/
+      - FLASK_APP=main.py
+    command: flask run --host=0.0.0.0
+
+  worker:
+    build: .
+    volumes:
+      - ./app:/app
+    environment:
+      - PYTHONPATH=/
+    command: huey_consumer.py app.tasks.huey
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
