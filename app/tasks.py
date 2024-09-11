@@ -1,7 +1,7 @@
 import requests
 from huey import RedisHuey
 
-huey = RedisHuey('weather_app', host='redis')
+huey = RedisHuey('weather_app', host='testing_redis')
 
 @huey.task()
 def get_weather(location):
