@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  testing_web:
+  web:
     build: .
     ports:
       - "${WEB_PORT:-5000}:5000"
@@ -13,7 +13,7 @@ services:
       - FLASK_APP=main.py
     command: flask run --host=0.0.0.0 --port=5000
 
-  testing_worker:
+  worker:
     build: .
     volumes:
       - ./app:/app
@@ -21,5 +21,6 @@ services:
       - PYTHONPATH=/
     command: huey_consumer.py app.tasks.huey
 
-  testing_redis:
+  redis:
     image: "redis:alpine"
+
