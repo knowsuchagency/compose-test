@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   web:
@@ -13,7 +13,7 @@ services:
       - FLASK_APP=main.py
     command: flask run --host=0.0.0.0 --port=5000
     networks:
-      - internal_test_network
+      - internal
 
   worker:
     build: .
@@ -23,14 +23,13 @@ services:
       - PYTHONPATH=/
     command: huey_consumer.py app.tasks.huey
     networks:
-      - internal_test_network
+      - internal
 
   redis:
     image: "redis:alpine"
     networks:
-      - internal_test_network
+      - internal
 
 networks:
-  internal_test_network:
+  internal:
     driver: bridge
-
