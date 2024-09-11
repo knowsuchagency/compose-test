@@ -12,6 +12,8 @@ services:
       - PYTHONPATH=/
       - FLASK_APP=main.py
     command: flask run --host=0.0.0.0 --port=5000
+    networks:
+      - internal_test_network
 
   worker:
     build: .
@@ -20,7 +22,15 @@ services:
     environment:
       - PYTHONPATH=/
     command: huey_consumer.py app.tasks.huey
+    networks:
+      - internal_test_network
 
   redis:
     image: "redis:alpine"
+    networks:
+      - internal_test_network
+
+networks:
+  internal_test_network:
+    driver: bridge
 
